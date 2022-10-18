@@ -1,0 +1,53 @@
+* {
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Roboto, sans-serif;
+}
+
+.container {
+    width: 90%;
+}
+
+.gem_puzzle {
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.gem_puzzle-buttons {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.button {
+    font-size: 22px;
+    margin-left: 2px;
+    color: white;
+    background-color: darkcyan;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+.stop {
+    background-color: grey;
+}
+
+.field {
+    border: black solid 1px;
+    width: 400px;
+    height: 400px;
+    position: relative;
+}
+
+.cell {
+    /* box-sizing: border-box; */
+    border: black solid 0.1px;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+}
