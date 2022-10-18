@@ -8,7 +8,7 @@ body {
 }
 
 .container {
-    width: 90%;
+    width: 100%;
 }
 
 .gem_puzzle {
@@ -24,13 +24,20 @@ body {
 }
 
 .button {
-    font-size: 22px;
-    margin-left: 2px;
+    font-size: 20px;
+    height: 30px;
+    /* margin-right: 9px; */
     color: white;
     background-color: darkcyan;
     cursor: pointer;
     border: none;
     outline: none;
+    border-radius: 3px;
+}
+.button:nth-child(1),
+.button:nth-child(2),
+.button:nth-child(3){
+    margin-right: 7px;
 }
 
 .stop {
@@ -38,10 +45,11 @@ body {
 }
 
 .field {
-    /* border: black solid 1px; */
     width: 400px;
     height: 400px;
+    margin-top: 10px;
     position: relative;
+    background-color: lightgray;
 }
 
 .cell {
@@ -54,4 +62,22 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all 0.1s;
+    background-color:white;
+    cursor: pointer;
+}
+.moves{
+    margin-right: 20px;
+}
+.inner_moves{
+    font-size: 20px;
+}
+.time_show{
+    font-size: 20px;
+}
+
+@media (max-width: 400px) {
+    /* .container{
+        width: 100%;
+    } */
 }
