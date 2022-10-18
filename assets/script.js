@@ -41,10 +41,14 @@ window.addEventListener("DOMContentLoaded", () => {
     timeCount.append(moves);
     timeCount.append(timer);
 
+
+
     const emptyCell = {
         left: 0,
         top: 0
     };
+    const cells = [];
+    cells.push(emptyCell);
 
     for (let i = 0; i <= 15; i++) {
         const cell = document.createElement('div');
@@ -61,7 +65,17 @@ window.addEventListener("DOMContentLoaded", () => {
         cell.style.left = `${left * 100}px`;
         cell.style.top = `${top * 100}px`;
 
+        cell.addEventListener('click', () => {
+            cell.style.left = `${emptyCell.left * 100}px`;
+            cell.style.top = `${emptyCell.top * 100}px`;
+
+            emptyCell.left = left;
+            emptyCell.top = top;
+        });
+
+
     }
+
 
 
 });
