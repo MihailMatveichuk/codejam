@@ -46,10 +46,13 @@ window.addEventListener("DOMContentLoaded", () => {
         top: 0
     };
 
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i <= 15; i++) {
         const cell = document.createElement('div');
         cell.className = 'cell';
-        cell.innerHTML = i + 1;
+        if (i > 0) {
+            cell.innerHTML = i;
+        }
+
         field.append(cell);
 
         const left = i % 4;

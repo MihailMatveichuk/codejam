@@ -38,7 +38,7 @@ body {
 }
 
 .field {
-    border: black solid 1px;
+    /* border: black solid 1px; */
     width: 400px;
     height: 400px;
     position: relative;
@@ -47,7 +47,7 @@ body {
 .cell {
     /* box-sizing: border-box; */
     border: black solid 0.1px;
-    width: 100px;
-    height: 100px;
+    width: 101px;
+    height: 101px;
     position: absolute;
 }
