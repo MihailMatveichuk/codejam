@@ -2,6 +2,8 @@
 
 window.addEventListener("DOMContentLoaded", () => {
 
+
+
     const container = document.createElement('div'),
         gemPuzzle = document.createElement('div'),
         gemPuzzleButtons = document.createElement('div'),
@@ -10,17 +12,27 @@ window.addEventListener("DOMContentLoaded", () => {
         buttonSave = document.createElement('button'),
         buttonResults = document.createElement('button'),
         timeCount = document.createElement('div'),
-        innerMoves = document.createElement('span'),
         moves = document.createElement('span'),
         timeShow = document.createElement('span'),
+        numberOfSize = document.createElement("p"),
+        otherSizes = document.createElement('div'),
+        link1 = document.createElement('a'),
+        link2 = document.createElement('a'),
+        link3 = document.createElement('a'),
+        link4 = document.createElement('a'),
+        link5 = document.createElement('a'),
+        link6 = document.createElement('a'),
         field = document.createElement('div');
 
-        let count = 0;
-        let min = 0;
-        let sec = 0;
-        const audio = new Audio("https://www.fesliyanstudios.com/play-mp3/387");
-        
-  
+
+
+
+    let count = 0;
+    let min = 0;
+    let sec = 0;
+    const audio = new Audio("https://www.fesliyanstudios.com/play-mp3/387");
+
+
     document.body.insertAdjacentElement('beforeend', container);
     container.className = "container";
     container.append(gemPuzzle);
@@ -41,62 +53,102 @@ window.addEventListener("DOMContentLoaded", () => {
     gemPuzzle.append(gemPuzzleButtons);
     gemPuzzle.append(timeCount);
     gemPuzzle.append(field);
+    gemPuzzle.append(numberOfSize);
+    gemPuzzle.append(otherSizes);
     gemPuzzle.className = "gem_puzzle";
     field.className = "field";
     moves.className = "moves";
-    moves.innerHTML = `Moves:`;
-    moves.append(innerMoves);
+    moves.innerHTML = `Moves: ${count}`;
+
+    buttonStart.addEventListener("click", () => {
+        document.location.reload();
+    });
+
+
+    function updateDisplay(val) {
+        moves.innerHTML = `Moves: ${val}`;
+    }
+
+
     timeShow.className = 'time_show';
     timeCount.className = "time_count";
     timeCount.append(moves);
+    numberOfSize.className = "size";
+    numberOfSize.innerHTML = `Frame size: 4x4`;
+    link1.setAttribute('href', 'size');
+    link1.innerHTML = '3x3';
+    link2.setAttribute('href', 'size');
+    link2.innerHTML = '4x4';
+    link3.setAttribute('href', 'size');
+    link3.innerHTML = '5x5';
+    link4.setAttribute('href', 'size');
+    link4.innerHTML = '6x6';
+    link5.setAttribute('href', 'size');
+    link5.innerHTML = '7x7';
+    link6.setAttribute('href', 'size');
+    link6.innerHTML = '8x8';
+    otherSizes.innerHTML = `Other sizes:`;
+    otherSizes.className = 'other-sizes';
+    otherSizes.append(link1);
+    otherSizes.append(link2);
+    otherSizes.append(link3);
+    otherSizes.append(link4);
+    otherSizes.append(link5);
+    otherSizes.append(link6);
+
 
     let myInterval;
+
     function init() {
         sec = 0;
-       myInterval = setInterval(tick, 1000);
+        myInterval = setInterval(tick, 1000);
     }
 
     function tick() {
         sec++;
-        if (sec >= 60) { 
+        if (sec >= 60) {
             min++;
             sec = sec - 60;
         }
-        if (sec < 10) { 
+        if (sec < 10) {
             if (min < 10) {
                 timeShow.innerHTML = `Timer: 0${min}:0${sec}`;
             } else {
                 timeShow.innerHTML = `Timer: ${min}:0${sec}`;
             }
         } else {
-                if (min < 10) {
-                    timeShow.innerHTML = `Timer: 0${min}:${sec}`;
+            if (min < 10) {
+                timeShow.innerHTML = `Timer: 0${min}:${sec}`;
             } else {
                 timeShow.innerHTML = `Timer: ${min}:${sec}`;
-                }
             }
         }
-        timeCount.append(timeShow);
+    }
+    timeCount.append(timeShow);
 
 
 
     const emptyCell = {
-        value : 0,
+        value: 0,
         left: 0,
         top: 0
     };
-    
+
     const cells = [];
     cells.push(emptyCell);
 
-    function move(index){
+    function move(index) {
         const cell = cells[index];
         const diffLeft = Math.abs(emptyCell.left - cell.left);
         const diffTop = Math.abs(emptyCell.top - cell.top);
 
-        if(diffLeft + diffTop > 1){
+        if (diffLeft + diffTop > 1) {
             return;
         }
+
+        updateDisplay(++count);
+
+
         cell.element.style.left = `${emptyCell.left * 100}px`;
         cell.element.style.top = `${emptyCell.top * 100}px`;
 
@@ -107,38 +159,38 @@ window.addEventListener("DOMContentLoaded", () => {
         cell.left = emptyCellLeft;
         cell.top = emptyCellTop;
 
-        const isVictory = cells.every(cell=>{
+        const isVictory = cells.every(cell => {
             return cell.value === cell.top * 4 + cell.left;
         });
 
-        if(isVictory){
-            if (sec < 10) { 
+        if (isVictory) {
+            if (sec < 10) {
                 if (min < 10) {
-                    alert(`Hooray! You solved the puzzle in 0${min}:0${sec} and N moves!`);
+                    alert(`Hooray! You solved the puzzle in 0${min}:0${sec} and ${count} moves!`);
                 } else {
-                    alert(`Hooray! You solved the puzzle in ${min}:0${sec} and N moves!`);
+                    alert(`Hooray! You solved the puzzle in ${min}:0${sec} and ${count} moves!`);
                 }
             } else {
-                    if (min < 10) {
-                        alert(`Hooray! You solved the puzzle in 0${min}:${sec} and N moves!`);
+                if (min < 10) {
+                    alert(`Hooray! You solved the puzzle in 0${min}:${sec} and ${count} moves!`);
                 } else {
-                    alert(`Hooray! You solved the puzzle in ${min}:${sec} and N moves!`);
-                    }
+                    alert(`Hooray! You solved the puzzle in ${min}:${sec} and ${count} moves!`);
                 }
-                clearInterval(myInterval);
             }
-            
+            clearInterval(myInterval);
         }
 
+    }
 
-    let digits = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].sort(()=> Math.random() - 0.5);
-    
+
+    let digits = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].sort(() => Math.random() - 0.5);
+
     for (let i = 1; i <= 15; i++) {
         let value = digits[i - 1];
         const cell = document.createElement('div');
         cell.className = 'cell';
         cell.innerHTML = value;
-        
+
 
         const left = i % 4;
         const top = (i - left) / 4;
@@ -160,35 +212,7 @@ window.addEventListener("DOMContentLoaded", () => {
             move(i);
             audio.play();
         });
-        
-        // window.addEventListener('resize',()=>{
-        //     if(window.innerWidth < 400){
-        //         cell.style.left = `${left * 90}px`;
-        //         cell.style.top = `${top * 90}px`;
-
-        //     }
-        //     else{
-        //         cell.style.left = `${left * 100}px`;
-        //         cell.style.top = `${top * 100}px`;
-        //     }
-
-        // });
-        // if(window.innerWidth < 400){
-        //     cell.style.left = `${left * 90}px`;
-        //     cell.style.top = `${top * 90}px`;
-            
-        // }
-        // else{
-        //     cell.style.left = `${left * 100}px`;
-        //     cell.style.top = `${top * 100}px`;
-        // }
 
     }
-    
-      
-    innerMoves.className = "inner_moves";
-    innerMoves.append(count);
-    
-
     init();
 });
