@@ -120,6 +120,11 @@ window.addEventListener("DOMContentLoaded", () => {
         updateField(8, 3, sizeOfCells);
         document.querySelector('.field').style.width = `${237}px`;
         document.querySelector('.field').style.height = `${237}px`;
+        clearInterval(myInterval);
+        myInterval = null;
+        timeShow.innerHTML = 'Timer: 00:00';
+        count = 0;
+        updateDisplay(count);
     });
     link2.addEventListener('click',(e)=>{
         e.preventDefault();
@@ -131,6 +136,11 @@ window.addEventListener("DOMContentLoaded", () => {
         updateField(24, 5, sizeOfCells);
         document.querySelector('.field').style.width = `${396}px`;
         document.querySelector('.field').style.height = `${396}px`;
+        clearInterval(myInterval);
+        myInterval = null;
+        timeShow.innerHTML = 'Timer: 00:00';
+        count = 0;
+        updateDisplay(count);
     });
     link4.addEventListener('click',(e)=>{
         e.preventDefault();
@@ -138,6 +148,11 @@ window.addEventListener("DOMContentLoaded", () => {
         updateField(35, 6, sizeOfCells);
         document.querySelector('.field').style.width = `${475}px`;
         document.querySelector('.field').style.height = `${475}px`;
+        clearInterval(myInterval);
+        myInterval = null;
+        timeShow.innerHTML = 'Timer: 00:00';
+        count = 0;
+        updateDisplay(count);
     });
     link5.addEventListener('click',(e)=>{
         e.preventDefault();
@@ -145,6 +160,11 @@ window.addEventListener("DOMContentLoaded", () => {
         updateField(48, 7, sizeOfCells);
         document.querySelector('.field').style.width = `${554}px`;
         document.querySelector('.field').style.height = `${554}px`;
+        clearInterval(myInterval);
+        myInterval = null;
+        timeShow.innerHTML = 'Timer: 00:00';
+        count = 0;
+        updateDisplay(count);
     });
     link6.addEventListener('click',(e)=>{
         e.preventDefault();
@@ -152,6 +172,11 @@ window.addEventListener("DOMContentLoaded", () => {
         updateField(63, 8, sizeOfCells);
         document.querySelector('.field').style.width = `${633}px`;
         document.querySelector('.field').style.height = `${633}px`;
+        clearInterval(myInterval);
+        myInterval = null;
+        timeShow.innerHTML = 'Timer: 00:00';
+        count = 0;
+        updateDisplay(count);
     });
 
     function togglePlay() {
@@ -195,7 +220,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
     timeCount.append(timeShow);
 
-    function move(index) {
+    function move(index, n, s) {
         if (!myInterval) {
             init();
         }
@@ -211,8 +236,8 @@ window.addEventListener("DOMContentLoaded", () => {
         updateDisplay(++count);
 
 
-        cell.element.style.left = `${emptyCell.left * sizeOfCells}px`;
-        cell.element.style.top = `${emptyCell.top * sizeOfCells}px`;
+        cell.element.style.left = `${emptyCell.left * s}px`;
+        cell.element.style.top = `${emptyCell.top * s}px`;
 
         const emptyCellLeft = emptyCell.left;
         const emptyCellTop = emptyCell.top;
@@ -222,7 +247,7 @@ window.addEventListener("DOMContentLoaded", () => {
         cell.top = emptyCellTop;
 
         const isVictory = cells.every(cell => {
-            return cell.value === cell.top * numberOfRow + cell.left;
+            return cell.value === cell.top * n + cell.left;
         });
 
         if (isVictory) {
@@ -280,7 +305,7 @@ window.addEventListener("DOMContentLoaded", () => {
             field.append(cell);
 
             cell.addEventListener('click', () => {
-                move(i);
+                move(i, nor, soc);
             });
 
         }
