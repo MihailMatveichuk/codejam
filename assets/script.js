@@ -125,6 +125,7 @@ window.addEventListener("DOMContentLoaded", () => {
         timeShow.innerHTML = 'Timer: 00:00';
         count = 0;
         updateDisplay(count);
+        numberOfSize.innerHTML = `Frame size: 3x3`;
     });
     link2.addEventListener('click',(e)=>{
         e.preventDefault();
@@ -141,42 +142,59 @@ window.addEventListener("DOMContentLoaded", () => {
         timeShow.innerHTML = 'Timer: 00:00';
         count = 0;
         updateDisplay(count);
+        numberOfSize.innerHTML = `Frame size: 5x5`;
     });
     link4.addEventListener('click',(e)=>{
         e.preventDefault();
         field.innerHTML = '';
-        updateField(35, 6, sizeOfCells);
-        document.querySelector('.field').style.width = `${475}px`;
-        document.querySelector('.field').style.height = `${475}px`;
+        updateField(35, 6, 60);
+        document.querySelector('.field').style.width = `${360}px`;
+        document.querySelector('.field').style.height = `${360}px`;
+        document.querySelectorAll('.cell').forEach(el=>{
+            el.style.width = `${62}px`;
+            el.style.height = `${62}px`;
+        });
         clearInterval(myInterval);
         myInterval = null;
         timeShow.innerHTML = 'Timer: 00:00';
         count = 0;
         updateDisplay(count);
+        numberOfSize.innerHTML = `Frame size: 6x6`;
     });
     link5.addEventListener('click',(e)=>{
         e.preventDefault();
         field.innerHTML = '';
-        updateField(48, 7, sizeOfCells);
-        document.querySelector('.field').style.width = `${554}px`;
-        document.querySelector('.field').style.height = `${554}px`;
+        updateField(48, 7, 60);
+        document.querySelector('.field').style.width = `${420}px`;
+        document.querySelector('.field').style.height = `${420}px`;
+        document.querySelectorAll('.cell').forEach(el=>{
+            el.style.width = `${62}px`;
+            el.style.height = `${62}px`;
+        });
         clearInterval(myInterval);
         myInterval = null;
         timeShow.innerHTML = 'Timer: 00:00';
         count = 0;
         updateDisplay(count);
+        numberOfSize.innerHTML = `Frame size: 7x7`;
     });
     link6.addEventListener('click',(e)=>{
         e.preventDefault();
         field.innerHTML = '';
-        updateField(63, 8, sizeOfCells);
-        document.querySelector('.field').style.width = `${633}px`;
-        document.querySelector('.field').style.height = `${633}px`;
+        updateField(63, 8, 60);
+        document.querySelector('.field').style.width = `${480}px`;
+        document.querySelector('.field').style.height = `${480}px`;
+        document.querySelectorAll('.cell').forEach(el=>{
+            el.style.width = `${62}px`;
+            el.style.height = `${62}px`;
+        });
+        
         clearInterval(myInterval);
         myInterval = null;
         timeShow.innerHTML = 'Timer: 00:00';
         count = 0;
         updateDisplay(count);
+        numberOfSize.innerHTML = `Frame size: 8x8`;
     });
 
     function togglePlay() {
