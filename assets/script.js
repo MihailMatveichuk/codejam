@@ -10,6 +10,10 @@ window.addEventListener("DOMContentLoaded", () => {
     let emptyCell;
     let cells;
     let myInterval;
+    let sizeOfCells = 79;
+    let numberOfCells = 15;
+    let numberOfRow = 4;
+    let cell;
 
 
     const container = document.createElement('div'),
@@ -32,11 +36,6 @@ window.addEventListener("DOMContentLoaded", () => {
         link6 = document.createElement('a'),
         linkOfSound = document.createElement('div'),
         field = document.createElement('div');
-
-
-
-
-
 
 
     document.body.insertAdjacentElement('beforeend', container);
@@ -62,7 +61,6 @@ window.addEventListener("DOMContentLoaded", () => {
     gemPuzzle.append(numberOfSize);
     gemPuzzle.append(otherSizes);
     gemPuzzle.append(linkOfSound);
-    // audio.
     linkOfSound.className = 'sound';
     gemPuzzle.className = "gem_puzzle";
     field.className = "field";
@@ -74,7 +72,9 @@ window.addEventListener("DOMContentLoaded", () => {
         clearInterval(myInterval);
         myInterval = null;
         timeShow.innerHTML = 'Timer: 00:00';
-        updateField();
+        document.querySelector('.field').style.width = `${316}px`;
+        document.querySelector('.field').style.height = `${316}px`;
+        updateField(numberOfCells,numberOfRow,sizeOfCells);
         count = 0;
         updateDisplay(count);
     });
@@ -113,6 +113,45 @@ window.addEventListener("DOMContentLoaded", () => {
             togglePlay();
         }
 
+    });
+    link1.addEventListener('click',(e)=>{
+        e.preventDefault();
+        field.innerHTML = '';
+        updateField(8, 3, sizeOfCells);
+        document.querySelector('.field').style.width = `${237}px`;
+        document.querySelector('.field').style.height = `${237}px`;
+    });
+    link2.addEventListener('click',(e)=>{
+        e.preventDefault();
+        location.reload();
+    });
+    link3.addEventListener('click',(e)=>{
+        e.preventDefault();
+        field.innerHTML = '';
+        updateField(24, 5, sizeOfCells);
+        document.querySelector('.field').style.width = `${396}px`;
+        document.querySelector('.field').style.height = `${396}px`;
+    });
+    link4.addEventListener('click',(e)=>{
+        e.preventDefault();
+        field.innerHTML = '';
+        updateField(35, 6, sizeOfCells);
+        document.querySelector('.field').style.width = `${475}px`;
+        document.querySelector('.field').style.height = `${475}px`;
+    });
+    link5.addEventListener('click',(e)=>{
+        e.preventDefault();
+        field.innerHTML = '';
+        updateField(48, 7, sizeOfCells);
+        document.querySelector('.field').style.width = `${554}px`;
+        document.querySelector('.field').style.height = `${554}px`;
+    });
+    link6.addEventListener('click',(e)=>{
+        e.preventDefault();
+        field.innerHTML = '';
+        updateField(63, 8, sizeOfCells);
+        document.querySelector('.field').style.width = `${633}px`;
+        document.querySelector('.field').style.height = `${633}px`;
     });
 
     function togglePlay() {
@@ -172,8 +211,8 @@ window.addEventListener("DOMContentLoaded", () => {
         updateDisplay(++count);
 
 
-        cell.element.style.left = `${emptyCell.left * 79}px`;
-        cell.element.style.top = `${emptyCell.top * 79}px`;
+        cell.element.style.left = `${emptyCell.left * sizeOfCells}px`;
+        cell.element.style.top = `${emptyCell.top * sizeOfCells}px`;
 
         const emptyCellLeft = emptyCell.left;
         const emptyCellTop = emptyCell.top;
@@ -183,7 +222,7 @@ window.addEventListener("DOMContentLoaded", () => {
         cell.top = emptyCellTop;
 
         const isVictory = cells.every(cell => {
-            return cell.value === cell.top * 4 + cell.left;
+            return cell.value === cell.top * numberOfRow + cell.left;
         });
 
         if (isVictory) {
@@ -205,7 +244,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     }
 
-    function updateField() {
+    function updateField(noc, nor, soc) {
         emptyCell = {
             value: 0,
             left: 0,
@@ -214,17 +253,18 @@ window.addEventListener("DOMContentLoaded", () => {
 
         cells = [];
         cells.push(emptyCell);
-        let digits = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].sort(() => Math.random() - 0.5);
+        let digits = [...Array(noc).keys()]
+        .map(x => x + 1).sort(() => Math.random() - 0.5);
 
-        for (let i = 1; i <= 15; i++) {
+        for (let i = 1; i <= noc; i++) {
             let value = digits[i - 1];
-            const cell = document.createElement('div');
+            cell = document.createElement('div');
             cell.className = 'cell';
             cell.innerHTML = value;
 
 
-            const left = i % 4;
-            const top = (i - left) / 4;
+            const left = i % nor;
+            const top = (i - left) / nor;
 
             cells.push({
                 value: value,
@@ -233,8 +273,8 @@ window.addEventListener("DOMContentLoaded", () => {
                 element: cell
             });
 
-            cell.style.left = `${left * 79}px`;
-            cell.style.top = `${top * 79}px`;
+            cell.style.left = `${left * soc}px`;
+            cell.style.top = `${top * soc}px`;
 
 
             field.append(cell);
@@ -245,7 +285,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
         }
     }
-    updateField();
+    updateField(numberOfCells, numberOfRow, sizeOfCells);
 
     // init();
 });
