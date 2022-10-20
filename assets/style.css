@@ -98,6 +98,17 @@ body {
     margin-right: 3px;
 }
 
+.sound {
+    background: url(../src/high-sound.png) no-repeat;
+    width: 40%;
+    height: 40px;
+    cursor: pointer;
+}
+
+.on {
+    background: url(../src/mute-sound.png) no-repeat;
+}
+
 @media (max-width: 400px) {
     /* .container{
         width: 100%;

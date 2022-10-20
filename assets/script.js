@@ -3,6 +3,14 @@
 window.addEventListener("DOMContentLoaded", () => {
 
 
+    let count = 0;
+    let min = 0;
+    let sec = 0;
+    const audio = new Audio("https://www.fesliyanstudios.com/play-mp3/387");
+    let emptyCell;
+    let cells;
+    let myInterval;
+
 
     const container = document.createElement('div'),
         gemPuzzle = document.createElement('div'),
@@ -28,13 +36,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 
-    let count = 0;
-    let min = 0;
-    let sec = 0;
-    const audio = new Audio("https://www.fesliyanstudios.com/play-mp3/387");
-    let emptyCell;
-    let cells;
-    let myInterval;
+
 
 
     document.body.insertAdjacentElement('beforeend', container);
@@ -59,6 +61,9 @@ window.addEventListener("DOMContentLoaded", () => {
     gemPuzzle.append(field);
     gemPuzzle.append(numberOfSize);
     gemPuzzle.append(otherSizes);
+    gemPuzzle.append(linkOfSound);
+    // audio.
+    linkOfSound.className = 'sound';
     gemPuzzle.className = "gem_puzzle";
     field.className = "field";
     moves.className = "moves";
@@ -72,13 +77,7 @@ window.addEventListener("DOMContentLoaded", () => {
         updateField();
         count = 0;
         updateDisplay(count);
-
     });
-
-
-    function updateDisplay(val) {
-        moves.innerHTML = `Moves: ${val}`;
-    }
 
 
     timeShow.className = 'time_show';
@@ -108,8 +107,25 @@ window.addEventListener("DOMContentLoaded", () => {
     otherSizes.append(link5);
     otherSizes.append(link6);
 
+    linkOfSound.addEventListener('click', () => {
+        if (linkOfSound.classList !== 'on') {
+            linkOfSound.classList.toggle('on');
+            togglePlay();
+        }
 
+    });
 
+    function togglePlay() {
+        if (audio.volume == 1) {
+            audio.volume = 0;
+        } else {
+            audio.volume = 1;
+        }
+    }
+
+    function updateDisplay(val) {
+        moves.innerHTML = `Moves: ${val}`;
+    }
 
     function init() {
         myInterval = setInterval(tick, 1000);
@@ -118,7 +134,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     function tick() {
-        console.log('tick');
         sec++;
         if (sec >= 60) {
             min++;
@@ -142,9 +157,8 @@ window.addEventListener("DOMContentLoaded", () => {
     timeCount.append(timeShow);
 
     function move(index) {
-        if(!myInterval){
+        if (!myInterval) {
             init();
-            console.log('yes');
         }
         const cell = cells[index];
         const diffLeft = Math.abs(emptyCell.left - cell.left);
@@ -153,7 +167,8 @@ window.addEventListener("DOMContentLoaded", () => {
         if (diffLeft + diffTop > 1) {
             return;
         }
-
+        audio.playbackRate = 1.5;
+        audio.play();
         updateDisplay(++count);
 
 
@@ -190,13 +205,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
     }
 
-    function updateField(){
+    function updateField() {
         emptyCell = {
             value: 0,
             left: 0,
             top: 0
         };
-    
+
         cells = [];
         cells.push(emptyCell);
         let digits = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].sort(() => Math.random() - 0.5);
@@ -206,32 +221,31 @@ window.addEventListener("DOMContentLoaded", () => {
             const cell = document.createElement('div');
             cell.className = 'cell';
             cell.innerHTML = value;
-    
-    
+
+
             const left = i % 4;
             const top = (i - left) / 4;
-    
+
             cells.push({
                 value: value,
                 left: left,
                 top: top,
                 element: cell
             });
-    
+
             cell.style.left = `${left * 79}px`;
             cell.style.top = `${top * 79}px`;
-    
-    
+
+
             field.append(cell);
-    
+
             cell.addEventListener('click', () => {
                 move(i);
-                audio.play();
             });
-    
-        }  
+
+        }
     }
     updateField();
-    
+
     // init();
 });
