@@ -14,7 +14,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let numberOfCells = 15;
     let numberOfRow = 4;
     let cell;
-    let arrOfChamp = new Array(10);
+    let arrOfChamp = [];
     let valueOfTime = '';
 
 
@@ -141,6 +141,8 @@ window.addEventListener("DOMContentLoaded", () => {
                 } else if (size == 4) {
                     el.style.width = `${Math.ceil(fieldWidth / size) + 0.7}px`;
                     el.style.height = `${Math.ceil(fieldWidth / size) + 0.7}px`;
+                    document.querySelector('.field').style.width = `${316}px`;
+                    document.querySelector('.field').style.height = `${316}px`;
                 } else if(size === 8){
                     el.style.width = `${Math.ceil(fieldWidth / size) - 0.2}px`;
                     el.style.height = `${Math.ceil(fieldWidth / size) - 0.2}px`;
@@ -252,15 +254,18 @@ window.addEventListener("DOMContentLoaded", () => {
                 }
             }
             valueOfTime = min * 60 + sec;
-            console.log(valueOfTime);
-            listOfchamp(valueOfTime);
+            arrOfChamp.push(valueOfTime);
             clearInterval(myInterval);
+            myInterval = null;
+            timeShow.innerHTML = 'Timer: 00:00';
+            count = 0;
+            updateDisplay(count);
         }
     }
-    let listOfchamp = function(a) {
-        arrOfChamp.push(a);
-        return arrOfChamp;
-    };
+    // let listOfChamp = function(a) {
+    //     arrOfChamp.push(a);
+    //     return arrOfChamp;
+    // };
 
     function updateField(noc, nor, soc) {
         emptyCell = {
@@ -305,7 +310,6 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
     updateField(numberOfCells, numberOfRow, sizeOfCells);
-    localStorage.setItem("myKey", JSON.stringify(gemPuzzle));
-
+    console.log(arrOfChamp);
     // init();
 });
