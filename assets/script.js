@@ -10,7 +10,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let emptyCell;
     let cells;
     let myInterval;
-    let sizeOfCells = 79;
+    let sizeOfCells = 79.2;
     let numberOfCells = 15;
     let numberOfRow = 4;
     let cell;
@@ -133,17 +133,23 @@ window.addEventListener("DOMContentLoaded", () => {
             let fieldWidth = 316;
             updateField(Math.pow(size, 2) - 1, size, Math.floor(fieldWidth / size));
             document.querySelectorAll('.cell').forEach(el => {
-                el.style.width = `${Math.ceil(fieldWidth / size)}px`;
-                el.style.height = `${Math.ceil(fieldWidth / size)}px`;
-                if (size === 6 || size === 8) {
+                el.style.width = `${Math.ceil(fieldWidth / size) - 0.2}px`;
+                el.style.height = `${Math.ceil(fieldWidth / size) - 0.2}px`;
+                if (size === 6) {
+                    document.querySelector('.field').style.width = `${314}px`;
+                    document.querySelector('.field').style.height = `${314}px`;
+                } else if (size == 4) {
+                    el.style.width = `${Math.ceil(fieldWidth / size) + 0.7}px`;
+                    el.style.height = `${Math.ceil(fieldWidth / size) + 0.7}px`;
+                } else if(size === 8){
+                    el.style.width = `${Math.ceil(fieldWidth / size) - 0.2}px`;
+                    el.style.height = `${Math.ceil(fieldWidth / size) - 0.2}px`;
                     document.querySelector('.field').style.width = `${313}px`;
                     document.querySelector('.field').style.height = `${313}px`;
-                } else if (size == 4) {
-                    el.style.width = `${Math.ceil(fieldWidth / size) + 1}px`;
-                    el.style.height = `${Math.ceil(fieldWidth / size) + 1}px`;
                 } else {
                     document.querySelector('.field').style.width = `${316}px`;
                     document.querySelector('.field').style.height = `${316}px`;
+                    
                 }
             });
             clearInterval(myInterval);
