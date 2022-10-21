@@ -12,6 +12,7 @@ body {
 }
 
 .gem_puzzle {
+    position: relative;
     margin: 0 auto;
     text-align: center;
     margin-top: 20px;
@@ -98,18 +99,24 @@ body {
 }
 
 .sound {
-    background: url(../src/high-sound.png) no-repeat;
-    width: 40%;
+    background: url(../src/high-sound.png) center no-repeat;
+    width: 40px;
     height: 40px;
     cursor: pointer;
 }
 
 .on {
-    background: url(../src/mute-sound.png) no-repeat;
+    background: url(../src/mute-sound.png) center no-repeat;
 }
 
-@media (max-width: 400px) {
-    /* .container{
-        width: 100%;
-    } */
+.table {
+    position: absolute;
+    z-index: 5;
+    width: 25%;
+    height: 200px;
+    top: 0;
+    left: 0;
+    box-shadow: 0.4em 0.4em 5px rgba(122, 122, 122, 0.5);
+    opacity: 1;
+    transition: all 1s;
 }

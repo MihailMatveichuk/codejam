@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 window.addEventListener("DOMContentLoaded", () => {
 
@@ -14,6 +14,8 @@ window.addEventListener("DOMContentLoaded", () => {
     let numberOfCells = 15;
     let numberOfRow = 4;
     let cell;
+    let arrOfChamp = new Array(10);
+    let valueOfTime = '';
 
 
     const container = document.createElement('div'),
@@ -35,12 +37,15 @@ window.addEventListener("DOMContentLoaded", () => {
         link5 = document.createElement('a'),
         link6 = document.createElement('a'),
         linkOfSound = document.createElement('div'),
-        field = document.createElement('div');
+        field = document.createElement('div'),
+        table = document.createElement('div');
+
 
 
     document.body.insertAdjacentElement('beforeend', container);
     container.className = "container";
     container.append(gemPuzzle);
+    gemPuzzle.append(table);
     buttonStart.className = "button";
     buttonStart.innerHTML = "Shuffle and start";
     buttonStop.className = 'button';
@@ -66,20 +71,6 @@ window.addEventListener("DOMContentLoaded", () => {
     field.className = "field";
     moves.className = "moves";
     moves.innerHTML = `Moves: ${count}`;
-
-    buttonStart.addEventListener("click", () => {
-        field.innerHTML = '';
-        clearInterval(myInterval);
-        myInterval = null;
-        timeShow.innerHTML = 'Timer: 00:00';
-        document.querySelector('.field').style.width = `${316}px`;
-        document.querySelector('.field').style.height = `${316}px`;
-        updateField(numberOfCells,numberOfRow,sizeOfCells);
-        count = 0;
-        updateDisplay(count);
-    });
-
-
     timeShow.className = 'time_show';
     timeShow.innerHTML = "Timer: 00:00";
     timeCount.className = "time_count";
@@ -98,7 +89,7 @@ window.addEventListener("DOMContentLoaded", () => {
     link5.innerHTML = '7x7';
     link6.setAttribute('href', 'size');
     link6.innerHTML = '8x8';
-    otherSizes.innerHTML = `Other sizes:`;
+    otherSizes.innerHTML = `Other sizes: `;
     otherSizes.className = 'other-sizes';
     otherSizes.append(link1);
     otherSizes.append(link2);
@@ -106,6 +97,25 @@ window.addEventListener("DOMContentLoaded", () => {
     otherSizes.append(link4);
     otherSizes.append(link5);
     otherSizes.append(link6);
+    const links = document.querySelectorAll('a');
+
+    buttonStart.addEventListener("click", () => {
+        field.innerHTML = '';
+        clearInterval(myInterval);
+        myInterval = null;
+        timeShow.innerHTML = 'Timer: 00:00';
+        document.querySelector('.field').style.width = `${316}px`;
+        document.querySelector('.field').style.height = `${316}px`;
+        updateField(numberOfCells, numberOfRow, sizeOfCells);
+        count = 0;
+        updateDisplay(count);
+    });
+
+    buttonResults.addEventListener('click', () => {
+        table.classList.toggle('table');
+        // table.append(arrOfChamp);
+    });
+
 
     linkOfSound.addEventListener('click', () => {
         if (linkOfSound.classList !== 'on') {
@@ -114,88 +124,38 @@ window.addEventListener("DOMContentLoaded", () => {
         }
 
     });
-    link1.addEventListener('click',(e)=>{
-        e.preventDefault();
-        field.innerHTML = '';
-        updateField(8, 3, sizeOfCells);
-        document.querySelector('.field').style.width = `${237}px`;
-        document.querySelector('.field').style.height = `${237}px`;
-        clearInterval(myInterval);
-        myInterval = null;
-        timeShow.innerHTML = 'Timer: 00:00';
-        count = 0;
-        updateDisplay(count);
-        numberOfSize.innerHTML = `Frame size: 3x3`;
-    });
-    link2.addEventListener('click',(e)=>{
-        e.preventDefault();
-        location.reload();
-    });
-    link3.addEventListener('click',(e)=>{
-        e.preventDefault();
-        field.innerHTML = '';
-        updateField(24, 5, sizeOfCells);
-        document.querySelector('.field').style.width = `${396}px`;
-        document.querySelector('.field').style.height = `${396}px`;
-        clearInterval(myInterval);
-        myInterval = null;
-        timeShow.innerHTML = 'Timer: 00:00';
-        count = 0;
-        updateDisplay(count);
-        numberOfSize.innerHTML = `Frame size: 5x5`;
-    });
-    link4.addEventListener('click',(e)=>{
-        e.preventDefault();
-        field.innerHTML = '';
-        updateField(35, 6, 60);
-        document.querySelector('.field').style.width = `${360}px`;
-        document.querySelector('.field').style.height = `${360}px`;
-        document.querySelectorAll('.cell').forEach(el=>{
-            el.style.width = `${62}px`;
-            el.style.height = `${62}px`;
+
+    links.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            field.innerHTML = '';
+            let size = +e.target.innerHTML.split('')[0];
+            let fieldWidth = 316;
+            updateField(Math.pow(size, 2) - 1, size, Math.floor(fieldWidth / size));
+            document.querySelectorAll('.cell').forEach(el => {
+                el.style.width = `${Math.ceil(fieldWidth / size)}px`;
+                el.style.height = `${Math.ceil(fieldWidth / size)}px`;
+                if (size === 6 || size === 8) {
+                    document.querySelector('.field').style.width = `${313}px`;
+                    document.querySelector('.field').style.height = `${313}px`;
+                } else if (size == 4) {
+                    el.style.width = `${Math.ceil(fieldWidth / size) + 1}px`;
+                    el.style.height = `${Math.ceil(fieldWidth / size) + 1}px`;
+                } else {
+                    document.querySelector('.field').style.width = `${316}px`;
+                    document.querySelector('.field').style.height = `${316}px`;
+                }
+            });
+            clearInterval(myInterval);
+            myInterval = null;
+            timeShow.innerHTML = 'Timer: 00:00';
+            count = 0;
+            updateDisplay(count);
+            numberOfSize.innerHTML = `Frame size: ${e.target.innerHTML}`;
         });
-        clearInterval(myInterval);
-        myInterval = null;
-        timeShow.innerHTML = 'Timer: 00:00';
-        count = 0;
-        updateDisplay(count);
-        numberOfSize.innerHTML = `Frame size: 6x6`;
     });
-    link5.addEventListener('click',(e)=>{
-        e.preventDefault();
-        field.innerHTML = '';
-        updateField(48, 7, 60);
-        document.querySelector('.field').style.width = `${420}px`;
-        document.querySelector('.field').style.height = `${420}px`;
-        document.querySelectorAll('.cell').forEach(el=>{
-            el.style.width = `${62}px`;
-            el.style.height = `${62}px`;
-        });
-        clearInterval(myInterval);
-        myInterval = null;
-        timeShow.innerHTML = 'Timer: 00:00';
-        count = 0;
-        updateDisplay(count);
-        numberOfSize.innerHTML = `Frame size: 7x7`;
-    });
-    link6.addEventListener('click',(e)=>{
-        e.preventDefault();
-        field.innerHTML = '';
-        updateField(63, 8, 60);
-        document.querySelector('.field').style.width = `${480}px`;
-        document.querySelector('.field').style.height = `${480}px`;
-        document.querySelectorAll('.cell').forEach(el=>{
-            el.style.width = `${62}px`;
-            el.style.height = `${62}px`;
-        });
-        
-        clearInterval(myInterval);
-        myInterval = null;
-        timeShow.innerHTML = 'Timer: 00:00';
-        count = 0;
-        updateDisplay(count);
-        numberOfSize.innerHTML = `Frame size: 8x8`;
-    });
+
+
 
     function togglePlay() {
         if (audio.volume == 1) {
@@ -274,18 +234,27 @@ window.addEventListener("DOMContentLoaded", () => {
                     alert(`Hooray! You solved the puzzle in 0${min}:0${sec} and ${count} moves!`);
                 } else {
                     alert(`Hooray! You solved the puzzle in ${min}:0${sec} and ${count} moves!`);
+                    valueOfTime = (`Hooray! You solved the puzzle in ${min}:0${sec} and ${count} moves!`);
                 }
             } else {
                 if (min < 10) {
                     alert(`Hooray! You solved the puzzle in 0${min}:${sec} and ${count} moves!`);
+                    valueOfTime = (`Hooray! You solved the puzzle in 0${min}:${sec} and ${count} moves!`);
                 } else {
                     alert(`Hooray! You solved the puzzle in ${min}:${sec} and ${count} moves!`);
+                    valueOfTime = (`Hooray! You solved the puzzle in ${min}:${sec} and ${count} moves!`);
                 }
             }
+            valueOfTime = min * 60 + sec;
+            console.log(valueOfTime);
+            listOfchamp(valueOfTime);
             clearInterval(myInterval);
         }
-
     }
+    let listOfchamp = function(a) {
+        arrOfChamp.push(a);
+        return arrOfChamp;
+    };
 
     function updateField(noc, nor, soc) {
         emptyCell = {
@@ -297,12 +266,13 @@ window.addEventListener("DOMContentLoaded", () => {
         cells = [];
         cells.push(emptyCell);
         let digits = [...Array(noc).keys()]
-        .map(x => x + 1).sort(() => Math.random() - 0.5);
+            .map(x => x + 1).sort(() => Math.random() - 0.5);
 
         for (let i = 1; i <= noc; i++) {
             let value = digits[i - 1];
             cell = document.createElement('div');
             cell.className = 'cell';
+            cell.setAttribute('draggable', 'true');
             cell.innerHTML = value;
 
 
@@ -322,13 +292,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
             field.append(cell);
 
+
             cell.addEventListener('click', () => {
                 move(i, nor, soc);
             });
-
         }
     }
     updateField(numberOfCells, numberOfRow, sizeOfCells);
+    localStorage.setItem("myKey", JSON.stringify(gemPuzzle));
 
     // init();
 });
