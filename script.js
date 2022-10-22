@@ -16,6 +16,9 @@ window.addEventListener("DOMContentLoaded", () => {
     let cell;
     let arrOfChamp = [];
     let valueOfTime = '';
+    let dragX = 0;
+    let dragY = 0;
+    let drag;
 
 
     const container = document.createElement('div'),
@@ -285,8 +288,7 @@ window.addEventListener("DOMContentLoaded", () => {
             cell.className = 'cell';
             cell.setAttribute('draggable', 'true');
             cell.innerHTML = value;
-
-
+        
             const left = i % nor;
             const top = (i - left) / nor;
 
@@ -302,13 +304,27 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
             field.append(cell);
-
-
+            drag = (event) => {
+                if(event.type == 'dragstart'){
+                    dragX = event.clientX;
+                    dragY = event.clientY;
+                    console.log(dragX,dragY);
+                }
+                else if(event.type == 'dragend'){
+                    move(i, nor, soc);
+                    
+                }
+            };
+            cell.addEventListener('dragstart', drag);
+            cell.addEventListener('dragend', drag);
             cell.addEventListener('click', () => {
                 move(i, nor, soc);
             });
         }
     }
+
+    
+
     updateField(numberOfCells, numberOfRow, sizeOfCells);
     console.log(arrOfChamp);
     // init();
