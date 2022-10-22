@@ -16,8 +16,6 @@ window.addEventListener("DOMContentLoaded", () => {
     let cell;
     let arrOfChamp = [];
     let valueOfTime = '';
-    let dragX = 0;
-    let dragY = 0;
     let drag;
 
 
@@ -305,19 +303,18 @@ window.addEventListener("DOMContentLoaded", () => {
 
             field.append(cell);
             drag = (event) => {
-                if(event.type == 'dragstart'){
-                    dragX = event.clientX;
-                    dragY = event.clientY;
-                    console.log(dragX,dragY);
-                }
-                else if(event.type == 'dragend'){
+                if(event.type == 'dragend'){
+                    document.querySelectorAll('.cell').forEach(el=>{
+                        el.style.transition = `all ${0}s`;
+                    });
                     move(i, nor, soc);
-                    
                 }
             };
-            cell.addEventListener('dragstart', drag);
             cell.addEventListener('dragend', drag);
             cell.addEventListener('click', () => {
+                    document.querySelectorAll('.cell').forEach(el=>{
+                        el.style.transition = `all ${0.5}s`;
+                    });
                 move(i, nor, soc);
             });
         }
