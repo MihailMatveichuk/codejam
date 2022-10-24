@@ -244,7 +244,7 @@ window.addEventListener("DOMContentLoaded", () => {
         emptyCell.top = cell.top;
         cell.left = emptyCellLeft;
         cell.top = emptyCellTop;
-        localStorage.setItem(cells, JSON.stringify(cells));
+        localStorage.setItem('cells', JSON.stringify(cells));
         // cells = ;
 
         const isVictory = cells.every(cell => {
@@ -296,11 +296,11 @@ window.addEventListener("DOMContentLoaded", () => {
         cells = [];
         cells.push(emptyCell);
 
-        // let digits = [...Array(noc).keys()]
-        //     .map(x => x + 1).sort(() => Math.random() - 0.5);
+        let digits = [...Array(noc).keys()]
+            .map(x => x + 1).sort(() => Math.random() - 0.5);
 
         for (let i = 1; i <= noc; i++) {
-            let value = i;
+            let value = digits[i - 1];
             cell = document.createElement('div');
             cell.className = 'cell';
             cell.setAttribute('draggable', 'true');
