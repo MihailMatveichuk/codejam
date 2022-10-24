@@ -10,14 +10,15 @@ window.addEventListener("DOMContentLoaded", () => {
     let emptyCell;
     let cells;
     let myInterval;
-    let sizeOfCells = 79.2;
+    let sizeOfCells = 79;
     let numberOfCells = 15;
     let numberOfRow = 4;
     let cell;
     let arrOfChamp = [];
+    let arrOfTime = [];
     let valueOfTime = '';
     let drag;
-
+    cells = JSON.parse(localStorage.getItem('cells'));
 
     const container = document.createElement('div'),
         gemPuzzle = document.createElement('div'),
@@ -114,7 +115,16 @@ window.addEventListener("DOMContentLoaded", () => {
 
     buttonResults.addEventListener('click', () => {
         table.classList.toggle('table');
-        // table.append(arrOfChamp);
+        if (table.classList.contains('table')) {
+            arrOfChamp = JSON.parse(localStorage.getItem('arrOfChamp'));
+            setTimeout(() => {
+                table.innerHTML = arrOfChamp.join("<br/>");
+            }, 500);
+
+        } else {
+            table.innerHTML = "";
+        }
+
     });
 
 
@@ -134,17 +144,19 @@ window.addEventListener("DOMContentLoaded", () => {
             let fieldWidth = 316;
             updateField(Math.pow(size, 2) - 1, size, Math.floor(fieldWidth / size));
             document.querySelectorAll('.cell').forEach(el => {
-                el.style.width = `${Math.ceil(fieldWidth / size) - 0.2}px`;
-                el.style.height = `${Math.ceil(fieldWidth / size) - 0.2}px`;
+                el.style.width = `${Math.ceil(fieldWidth / size)}px`;
+                el.style.height = `${Math.ceil(fieldWidth / size)}px`;
                 if (size === 6) {
+                    el.style.width = `${Math.ceil(fieldWidth / size) + 0.7}px`;
+                    el.style.height = `${Math.ceil(fieldWidth / size) + 0.7}px`;
                     document.querySelector('.field').style.width = `${314}px`;
                     document.querySelector('.field').style.height = `${314}px`;
                 } else if (size == 4) {
-                    el.style.width = `${Math.ceil(fieldWidth / size) + 0.7}px`;
-                    el.style.height = `${Math.ceil(fieldWidth / size) + 0.7}px`;
+                    el.style.width = `${Math.ceil(fieldWidth / size) + 1}px`;
+                    el.style.height = `${Math.ceil(fieldWidth / size) + 1}px`;
                     document.querySelector('.field').style.width = `${316}px`;
                     document.querySelector('.field').style.height = `${316}px`;
-                } else if(size === 8){
+                } else if (size === 8) {
                     el.style.width = `${Math.ceil(fieldWidth / size) - 0.2}px`;
                     el.style.height = `${Math.ceil(fieldWidth / size) - 0.2}px`;
                     document.querySelector('.field').style.width = `${313}px`;
@@ -152,7 +164,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 } else {
                     document.querySelector('.field').style.width = `${316}px`;
                     document.querySelector('.field').style.height = `${316}px`;
-                    
+
                 }
             });
             clearInterval(myInterval);
@@ -232,6 +244,8 @@ window.addEventListener("DOMContentLoaded", () => {
         emptyCell.top = cell.top;
         cell.left = emptyCellLeft;
         cell.top = emptyCellTop;
+        localStorage.setItem(cells, JSON.stringify(cells));
+        // cells = ;
 
         const isVictory = cells.every(cell => {
             return cell.value === cell.top * n + cell.left;
@@ -241,32 +255,36 @@ window.addEventListener("DOMContentLoaded", () => {
             if (sec < 10) {
                 if (min < 10) {
                     alert(`Hooray! You solved the puzzle in 0${min}:0${sec} and ${count} moves!`);
+                    valueOfTime = `0${min}:0${sec} and ${count} moves`;
                 } else {
-                    alert(`Hooray! You solved the puzzle in ${min}:0${sec} and ${count} moves!`);
-                    valueOfTime = (`Hooray! You solved the puzzle in ${min}:0${sec} and ${count} moves!`);
+                    valueOfTime = alert(`Hooray! You solved the puzzle in ${min}:0${sec} and ${count} moves!`);
+                    valueOfTime = `${min}:0${sec} and ${count} moves`;
                 }
             } else {
                 if (min < 10) {
-                    alert(`Hooray! You solved the puzzle in 0${min}:${sec} and ${count} moves!`);
-                    valueOfTime = (`Hooray! You solved the puzzle in 0${min}:${sec} and ${count} moves!`);
+                    valueOfTime = alert(`Hooray! You solved the puzzle in 0${min}:${sec} and ${count} moves!`);
+                    valueOfTime = `0${min}:${sec} and ${count} moves`;
                 } else {
-                    alert(`Hooray! You solved the puzzle in ${min}:${sec} and ${count} moves!`);
-                    valueOfTime = (`Hooray! You solved the puzzle in ${min}:${sec} and ${count} moves!`);
+                    valueOfTime = alert(`Hooray! You solved the puzzle in ${min}:${sec} and ${count} moves!`);
+                    valueOfTime = `${min}:${sec} and ${count} moves`;
                 }
             }
-            valueOfTime = min * 60 + sec;
-            arrOfChamp.push(valueOfTime);
+            let valueOfTimeInSecond = min * 60 + sec;
             clearInterval(myInterval);
             myInterval = null;
             timeShow.innerHTML = 'Timer: 00:00';
             count = 0;
             updateDisplay(count);
+            if (arrOfChamp.length < 10) {
+                arrOfTime.push(valueOfTimeInSecond);
+                arrOfChamp.push(valueOfTime);
+
+            }
+
         }
+
+        localStorage.setItem('arrOfChamp', JSON.stringify(arrOfChamp));
     }
-    // let listOfChamp = function(a) {
-    //     arrOfChamp.push(a);
-    //     return arrOfChamp;
-    // };
 
     function updateField(noc, nor, soc) {
         emptyCell = {
@@ -277,16 +295,17 @@ window.addEventListener("DOMContentLoaded", () => {
 
         cells = [];
         cells.push(emptyCell);
-        let digits = [...Array(noc).keys()]
-            .map(x => x + 1).sort(() => Math.random() - 0.5);
+
+        // let digits = [...Array(noc).keys()]
+        //     .map(x => x + 1).sort(() => Math.random() - 0.5);
 
         for (let i = 1; i <= noc; i++) {
-            let value = digits[i - 1];
+            let value = i;
             cell = document.createElement('div');
             cell.className = 'cell';
             cell.setAttribute('draggable', 'true');
             cell.innerHTML = value;
-        
+
             const left = i % nor;
             const top = (i - left) / nor;
 
@@ -303,8 +322,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
             field.append(cell);
             drag = (event) => {
-                if(event.type == 'dragend'){
-                    document.querySelectorAll('.cell').forEach(el=>{
+                if (event.type == 'dragend') {
+                    document.querySelectorAll('.cell').forEach(el => {
                         el.style.transition = `all ${0}s`;
                     });
                     move(i, nor, soc);
@@ -312,15 +331,15 @@ window.addEventListener("DOMContentLoaded", () => {
             };
             cell.addEventListener('dragend', drag);
             cell.addEventListener('click', () => {
-                    document.querySelectorAll('.cell').forEach(el=>{
-                        el.style.transition = `all ${0.5}s`;
-                    });
+                document.querySelectorAll('.cell').forEach(el => {
+                    el.style.transition = `all ${0.5}s`;
+                });
                 move(i, nor, soc);
             });
         }
     }
 
-    
+
 
     updateField(numberOfCells, numberOfRow, sizeOfCells);
     console.log(arrOfChamp);
